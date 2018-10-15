@@ -15,7 +15,7 @@
  *     or data associated with any cell/row DOM nodes.  Cell editors must make sure they implement .destroy()
  *     and do proper cleanup.
  */
-
+/*
 // make sure required JavaScript modules are loaded
 if (typeof jQuery === "undefined") {
   throw new Error("SlickGrid requires jquery module to be loaded");
@@ -28,7 +28,16 @@ if (typeof Slick === "undefined") {
 }
 
 
-(function ($) {
+(*/
+(function (root, factory) {
+  if (typeof define === "function" && define.amd) {
+      define(["jquery", "core"], factory);
+  } else if (typeof exports === "object") {
+      module.exports = factory(require("lib/jquery-1.11.2.min.js"), require("./slick.core.js"));
+  } else {
+      root.Requester = factory(root.$, root.Slick);
+  }
+}(this, function ($, Slick) {
   // Slick.Grid
   $.extend(true, window, {
     Slick: {
@@ -4046,4 +4055,7 @@ if (typeof Slick === "undefined") {
 
     init();
   }
-}(jQuery));
+  return {
+    Grid: SlickGrid
+  };
+}));
